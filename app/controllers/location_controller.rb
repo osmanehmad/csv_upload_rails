@@ -1,9 +1,10 @@
 class LocationController < ApplicationController
 
   def all
+    # this controller responds to API route and returns JSON
     @data = Location.all
     respond_to do |format|
-      format.json { render :@data }
+      format.json { render json: @data }
     end
   end
 

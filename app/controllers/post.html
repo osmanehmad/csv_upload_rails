@@ -1,0 +1,36 @@
+<html>
+<head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+</head>
+                <script>
+                function call_server(){
+
+                  $.ajaxSetup({
+                        type: 'POST',
+                            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                                dataType: 'json'
+                  });
+
+                 $.ajax({
+                    url: "http://localhost:3000/active/update.json",
+                    data: {"active":{"_id":"for_testing_must_give_valid_id_here", "OtherFields":"OtherValues"}}
+                    ,success: function() {
+
+                    alert('SUCCESS in testPOST');
+
+                    },
+
+                    error: function(request, status, error) {
+
+                    alert('ERROR in testPOST\nStatus='+status);
+
+                    }
+
+                });
+                });
+                </script>
+        <body>
+        <h2> Sample Javascript Call for integration with PhoneGap applications </h2>
+        </body>
+        <button onclick = "call_server()">
+</html>

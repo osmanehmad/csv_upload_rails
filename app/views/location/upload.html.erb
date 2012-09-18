@@ -1,0 +1,9 @@
+<%= button_to "Go Back to Dashboard", :action => "show" %>
+<%= form_tag @potential, :multipart => true do %>
+  <%= file_field_tag :file, :accept => "text/csv" %>
+  <%= submit_tag "Upload" %>
+<% end %>
+<h3> Please make sure you're uploading a CSV file <br />
+
+
+

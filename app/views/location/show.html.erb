@@ -1,0 +1,18 @@
+<script src="http://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+<a href="upload"><input type="button" value="Go to Upload Page"></a>
+<table class="sortable" border="1">
+    <thead>
+      <% @thead.each do |table_header| %>
+        <td> <%= table_header =%> </td>
+      <%end%>
+    </thead>
+  <% @data.each do |row| %>
+  <tr>
+    <% row.each do |column|%>
+    <td>
+      <%= column.second =%>
+    </td>
+    <%end%>
+  </tr>
+  <%end%>
+</table>

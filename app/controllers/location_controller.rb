@@ -37,11 +37,4 @@ class LocationController < ApplicationController
     end
   end
 
-  protected
-  def authenticate
-    authenticate_or_request_with_http_basic do |username, password|
-        username == "m@vd2.com" && password == "in2liberty"
-    end
-  end
-
 end

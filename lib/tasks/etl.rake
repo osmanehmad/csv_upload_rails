@@ -2,7 +2,7 @@
 require 'csv'
 
 namespace :etl do
-  desc 'loading active constructions'
+  desc 'loading active projects'
     task :active => :environment do
       Active.new.collection.drop
       csv_data = CSV.read Rails.root.join("lib","tasks","c.csv")
@@ -11,7 +11,7 @@ namespace :etl do
       data = string_data.map {|row| Hash[*headers.zip(row).flatten] }
       data.each do |doc|
         p doc
-        doc["Rehab_Cost"] = 0
+        doc["field_name_removed"] = 0
         active = Active.new(doc)
         active.save
       end
@@ -19,38 +19,38 @@ namespace :etl do
     task :locations => :environment do
       Location.collection.drop
 
-      # foreclosure radar exports some vile text in every csv file, have to make that go away before etl
+      # a sample csv file includes some vile text in every csv file, have to make that go away before etl
       f = open(Rails.root.join('lib','tasks','locations.csv').to_s)
       data = f.read()
-      data.chomp! "\r\n\r\nThe information contained in this report is subject to the license restrictions and all other terms contained in ForeclosureRadar.com's User Agreement.\r\n"
+      data.chomp! "\r\n\r\nTEXT REMOVED\r\n"
       csv_data = CSV.parse data
       # end csv repair
 
       headers = csv_data.shift.map {|i| i.to_s }
-      headers =  headers + ["Driver","Owned", "Manager"]
+      headers =  headers + [FIELDS_REMOVED]
       string_data = csv_data.map {|row| row.map {|cell| cell.to_s } }
       data = string_data.map {|row| Hash[*headers.zip(row).flatten] }
       data.each do |doc|
-        # adding custom fields, Driver, Manager and Owned
-        # Driver stores name of the driver assigned, default value is "" (empty string)
-        # manager stores name of the Property Manager assigned, default value is "" (empty string)
-        # Owned stores if Haven owns the house yet or not, default value is "No" (which means no, haven doesnt own it yet)
-        doc.merge!({"Driver" => ""+"#lat:long"})
-        doc.merge!({"Manager" => ""})
-        doc.merge!({"Owned" => "No"})
-        doc.merge!({"Order" => "#"})
-        p doc
+        # adding custom fields
+        # removed
+        # removed
+        # removed
+        doc.merge!({"removed" => ""+"#lat:long"})
+        doc.merge!({"remooved" => ""})
+        doc.merge!({"removed" => "No"})
+        doc.merge!({"removed" => "#"})
         potential = Location.new(doc)
         potential.save
       end
     end
      task :locations_seed => :environment do
+      # this task is for randomly seeding data for testing
       Location.collection.drop
 
-      # foreclosure radar exports some vile text in every csv file, have to make that go away before etl
+      # a samle csv file exports some vile text in every csv file, have to make that go away before etl
       f = open(Rails.root.join('lib','tasks','locations.csv').to_s)
       data = f.read()
-      data.chomp! "\r\n\r\nThe information contained in this report is subject to the license restrictions and all other terms contained in ForeclosureRadar.com's User Agreement.\r\n"
+      data.chomp! "\r\n\r\nTEXT REMOVED\r\n"
       csv_data = CSV.parse data
       # end csv repair
 
@@ -60,13 +60,13 @@ namespace :etl do
       data = string_data.map {|row| Hash[*headers.zip(row).flatten] }
       data.each do |doc|
         # adding custom fields, Driver and Owned
-        # Driver stores name of the driver assigned, default value is "" (empty string)
-        # Owned stores if Haven owns the house yet or not, default value is "No" (which means no, haven doesnt own it yet)
-        doc.merge!({"Driver" => Location::DRIVERS.sample.to_s + "#lat:long"})
-        doc.merge!({"Manager" => Location::MANAGERS.sample})
-        doc.merge!({"Owned" => "No"})
-        doc.merge!({"Order" => "#"})
-        p doc
+        # removed
+        # removed
+        # removed
+        doc.merge!({"removed" => MODEL::REMOVED.sample.to_s + "#lat:long"})
+        doc.merge!({"removed" => MODEL::REMOVED.sample})
+        doc.merge!({"removed" => "No"})
+        doc.merge!({"removed" => "#"})
         potential = Location.new(doc)
         potential.save
       end
@@ -76,7 +76,7 @@ namespace :etl do
       Location.new.collection.drop
     end
     task :pull_from_rentjuice => :environment do
-      Home.seed
+      REMOVED.seed
     end
 
 end
